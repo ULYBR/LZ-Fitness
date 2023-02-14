@@ -1,4 +1,6 @@
 
+const containerProduto = document.querySelectorAll('card');
+
 function FazGet(url) {
     let request = new XMLHttpRequest();
     request.open("GET", url, false);
@@ -17,14 +19,18 @@ function FazGet(url) {
 
 
 
-//alert( int );
 
 
 
-function CriarProduto(produto){
-   
+function CriarProduto(production){
+   const produto = document.createElement('div');
     
+   produto.innerHTML = `${production.nome}`;
 
+   containerProduto.appendChild(produto);
+
+    
+return produto.innerHTML;
 
     
 
@@ -34,9 +40,18 @@ function main(){
     const shorts = FazGet('https://test-api-production-1830.up.railway.app/shorts');
     const calcas = FazGet('https://test-api-production-1830.up.railway.app/calcas');
     const products = FazGet('https://test-api-production-1830.up.railway.app/products/:id');
-  
 
-    console.log (tops);
+    for (let i = 0; i < tops.length; i++) {
+        CriarProduto(tops[i]);
+        CriarProduto(shorts[i]);
+        CriarProduto(calcas[i]);
+        CriarProduto(products[i]);
+
+        
+    }
+    
+
+    
 }
 
 
