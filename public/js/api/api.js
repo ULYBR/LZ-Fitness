@@ -1,10 +1,51 @@
-const { default: axios } = require("axios");
 
-const produto = axios.get('https://test-api-production-1830.up.railway.app/products/:id');
-const produtos = axios.get('https://test-api-production-1830.up.railway.app/products');
-const tops = axios.get('https://test-api-production-1830.up.railway.app/products/tops');
-const calcas = axios.get('https://test-api-production-1830.up.railway.app/products/calcas');
-const shorts = axios.get('https://test-api-production-1830.up.railway.app/products/shorts');
+function FazGet(url) {
+    let request = new XMLHttpRequest();
+    request.open("GET", url, false);
+    request.send(null);
+    function ParseJson (json){
+        const jsonParse = JSON.parse(json);
+        return jsonParse;
+    }
+    
+    return ParseJson(request.responseText);
+
+
+    
+}
+
+
+
+
+//alert( int );
+
+
+
+function CriarProduto(produto){
+   
+    
+
+
+    
+
+}
+function main(){
+    const tops = FazGet('https://test-api-production-1830.up.railway.app/tops');
+    const shorts = FazGet('https://test-api-production-1830.up.railway.app/shorts');
+    const calcas = FazGet('https://test-api-production-1830.up.railway.app/calcas');
+    const products = FazGet('https://test-api-production-1830.up.railway.app/products/:id');
+  
+
+    console.log (tops);
+}
+
+
+
+
+main();
+
+    
+
 
 
 
