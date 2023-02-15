@@ -1,65 +1,60 @@
-
-const containerProduto = document.querySelectorAll('card');
-
-function FazGet(url) {
-    let request = new XMLHttpRequest();
-    request.open("GET", url, false);
-    request.send(null);
-    function ParseJson (json){
-        const jsonParse = JSON.parse(json);
-        return jsonParse;
-    }
-    
-    return ParseJson(request.responseText);
-
-
-    
+async function FazGet(url) {
+    return new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open("GET", url, true);
+        request.onreadystatechange = function() {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    try {
+                        const json = JSON.parse(request.responseText);
+                        resolve(json);
+                    } catch (error) {
+                        reject(error);
+                    }
+                } else {
+                    reject(new Error("Erro ao fazer a requisição"));
+                }
+            }
+        };
+        request.send();
+    });
 }
-
-
-
-
-
-
 
 function CriarProduto(production){
-   const produto = document.createElement('div');
-    
-   produto.innerHTML = `${production.nome}`;
-
-   containerProduto.appendChild(produto);
-
-    
-return produto.innerHTML;
-
-    
-
+    const containerProduto = document.createElement('div'); // criar o contêiner de produto
+    containerProduto.classList.add('card'); // adicionar a classe card ao contêiner
+    const produto = document.createElement('div');
+    const preco = document.createElement('span');
+    const imagem = document.createElement('img');
+  
+    preco.innerHTML = `${production.preços}`;
+    produto.innerHTML = `${production.nome}`;
+    imagem.src = `${production.imagem}`;
+  
+    containerProduto.appendChild(produto);
+    containerProduto.appendChild(preco);
+    containerProduto.appendChild(imagem);
+  
+    document.body.appendChild(containerProduto); // adicionar o contêiner de produto ao documento
 }
-function main(){
-    const tops = FazGet('https://test-api-production-1830.up.railway.app/tops');
-    const shorts = FazGet('https://test-api-production-1830.up.railway.app/shorts');
-    const calcas = FazGet('https://test-api-production-1830.up.railway.app/calcas');
-    const products = FazGet('https://test-api-production-1830.up.railway.app/products/:id');
 
-    for (let i = 0; i < tops.length; i++) {
-        CriarProduto(tops[i]);
-        CriarProduto(shorts[i]);
-        CriarProduto(calcas[i]);
-        CriarProduto(products[i]);
-
+async function main() {
+    try {
+        const tops = await FazGet('https://test-api-production-1830.up.railway.app/tops');
+        const shorts = await FazGet('https://test-api-production-1830.up.railway.app/shorts');
+        const calcas = await FazGet('https://test-api-production-1830.up.railway.app/calcas');
         
+        // criar um contêiner para cada produto e adicionar ao documento
+        tops.forEach((product) => CriarProduto(product));
+        shorts.forEach((product) => CriarProduto(product));
+        calcas.forEach((product) => CriarProduto(product));
+        
+    } catch (error) {
+        console.error(error);
     }
-    
-
-    
 }
-
-
-
 
 main();
-
-    
 
 
 
