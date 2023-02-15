@@ -20,14 +20,18 @@ async function FazGet(url) {
     });
 }
 
+
+
 function CriarProduto(production){
     const containerProduto = document.createElement('div'); // criar o contêiner de produto
     containerProduto.classList.add('card'); // adicionar a classe card ao contêiner
     const produto = document.createElement('div');
     const preco = document.createElement('span');
     const imagem = document.createElement('img');
+
+    
   
-    preco.innerHTML = `${production.preços}`;
+    preco.innerHTML = `${production.preço}`;
     produto.innerHTML = `${production.nome}`;
     imagem.src = `${production.imagem}`;
   
@@ -54,7 +58,12 @@ async function main() {
     }
 }
 
+
+
+
+
 main();
+    
 
 
 
